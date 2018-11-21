@@ -17,8 +17,8 @@ def dqn_cart_pole():
     config.network_fn = lambda: VanillaNet(config.action_dim, FCBody(config.state_dim))
     # config.network_fn = lambda: DuelingNet(config.action_dim, FCBody(config.state_dim))
 
-    # config.replay_fn = lambda: Replay(memory_size=int(1e4), batch_size=10)
-    config.replay_fn = lambda: AsyncReplay(memory_size=int(1e4), batch_size=10)
+    config.replay_fn = lambda: Replay(memory_size=int(1e4), batch_size=10)
+    # config.replay_fn = lambda: AsyncReplay(memory_size=int(1e4), batch_size=10)
 
     config.random_action_prob = LinearSchedule(1.0, 0.1, 1e4)
     config.discount = 0.99
@@ -29,9 +29,9 @@ def dqn_cart_pole():
     config.sgd_update_frequency = 4
     config.gradient_clip = 5
     config.eval_interval = int(5e3)
-    config.max_steps = 1e5
+    config.max_steps = 1e6
     # config.async_actor = False
-    config.logger = get_logger()
+    config.logger = get_logger(tag="cart_pole")
     run_steps(DQNAgent(config))
 
 def dqn_pixel_atari(name):
@@ -433,6 +433,36 @@ def plot():
     plt.legend()
     plt.savefig('./images/breakout.png')
 
+# DQN
+def dqn_lunar_lander():
+    game = 'LunarLander-v2'
+    config = Config()
+    config.task_fn = lambda: Task(game)
+    config.eval_env = config.task_fn()
+
+    config.optimizer_fn = lambda params: torch.optim.RMSprop(params, 0.001)
+    config.network_fn = lambda: VanillaNet(config.action_dim, FCBody(config.state_dim))
+    # config.network_fn = lambda: DuelingNet(config.action_dim, FCBody(config.state_dim))
+
+    config.replay_fn = lambda: Replay(memory_size=int(1e4), batch_size=10)
+    # config.replay_fn = lambda: AsyncReplay(memory_size=int(1e4), batch_size=10)
+
+    config.random_action_prob = LinearSchedule(1.0, 0.1, 1e4)
+    config.discount = 0.99
+    config.target_network_update_freq = 200
+    config.exploration_steps = 1000
+    # config.double_q = True
+    config.double_q = False
+    config.sgd_update_frequency = 4
+    config.gradient_clip = 5
+    config.eval_interval = int(5e3)
+    config.max_steps = 1e6
+    # config.async_actor = False
+    config.logger = get_logger(tag="lunar_lander")
+    run_steps(DQNAgent(config))
+
+
+
 if __name__ == '__main__':
     mkdir('log')
     mkdir('tf_log')
@@ -461,4 +491,6 @@ if __name__ == '__main__':
     # option_ciritc_pixel_atari(game)
     # ppo_pixel_atari(game)
 
-    plot()
+    # plot()
+
+    dqn_lunar_lander()
