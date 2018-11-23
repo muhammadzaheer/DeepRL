@@ -22,14 +22,16 @@ def run_steps(agent):
     config = agent.config
     agent_name = agent.__class__.__name__
     t0 = time.time()
+    total_episodes = 0
     while True:
         if config.save_interval and not agent.total_steps % config.save_interval:
             agent.save(os.path.join(config.get_modeldir(), 'model-%s-%s-%s.bin' % (agent_name, config.task_name, config.tag)))
         if config.log_interval and not agent.total_steps % config.log_interval and len(agent.episode_rewards):
             rewards = agent.episode_rewards
             agent.episode_rewards = []
-            config.logger.info('total steps %d, returns %.2f/%.2f/%.2f/%.2f/%d (mean/median/min/max/num), %.2f steps/s' % (
-                agent.total_steps, np.mean(rewards), np.median(rewards), np.min(rewards), np.max(rewards), len(rewards),
+            total_episodes += len(rewards)
+            config.logger.info('total steps %d, total episodes %3d, returns %.2f/%.2f/%.2f/%.2f/%d (mean/median/min/max/num), %.2f steps/s' % (
+                agent.total_steps, total_episodes, np.mean(rewards), np.median(rewards), np.min(rewards), np.max(rewards), len(rewards),
                 config.log_interval / (time.time() - t0)))
             t0 = time.time()
         if config.eval_interval and not agent.total_steps % config.eval_interval:

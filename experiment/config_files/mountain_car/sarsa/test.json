@@ -1,0 +1,30 @@
+{
+    "config_class": "SarsaAgentConfig",
+    "fixed_parameters": {
+        "exp_name": "lunar_lander/sarsa_lambda",
+        "task_name": "MountainCar-v0",
+        "agent": "SarsaAgent",
+        "exploration_steps": 0,
+        "sgd_update_frequency": 1,
+        "learning_rate": 0.00002,
+        "gradient_clip": 5,
+        "log_interval": 5000,
+        "eval_interval": 25000,
+        "max_steps": 1e6,
+        "double_q": false,
+        "async_actor": false,
+        "save_interval": 50000,
+        "tiles_memsize": 32,
+        "tiles": 4,
+        "num_tilings": 5,
+        "tile_separate": true,
+        "hidden_units": 20,
+        "epsilon_start": 0.1,
+        "epsilon_end": 0.1,
+        "epsilon_schedule_steps": 0,
+        "timeout": 1000
+    },
+    "sweep_parameters": {
+        "discount": [1.0]
+    }
+}

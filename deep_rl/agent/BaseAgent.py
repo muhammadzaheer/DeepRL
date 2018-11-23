@@ -32,11 +32,13 @@ class BaseAgent:
         env = self.config.eval_env
         state = env.reset()
         total_rewards = 0
+        ep_steps = 0
         while True:
             action = self.eval_step(state)
             state, reward, done, _ = env.step([action])
             total_rewards += reward[0]
-            if done[0]:
+            ep_steps += 1
+            if done[0] or ep_steps == self.config.timeout:
                 break
         return total_rewards
 

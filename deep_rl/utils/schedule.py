@@ -16,7 +16,10 @@ class LinearSchedule:
         if end is None:
             end = start
             steps = 1
-        self.inc = (end - start) / float(steps)
+        if not int(steps):
+            self.inc = 0.0
+        else:
+            self.inc = (end - start) / float(steps)
         self.current = start
         self.end = end
         if end > start:

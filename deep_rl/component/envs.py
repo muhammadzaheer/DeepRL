@@ -29,7 +29,7 @@ def make_env(env_id, seed, rank, log_dir, episode_life=True):
             _, domain, task = env_id.split('-')
             env = dm_control2gym.make(domain_name=domain, task_name=task)
         else:
-            env = gym.make(env_id)
+            env = gym.make(env_id).env
         is_atari = hasattr(gym.envs, 'atari') and isinstance(
             env.unwrapped, gym.envs.atari.atari_env.AtariEnv)
         if is_atari:

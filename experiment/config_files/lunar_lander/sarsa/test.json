@@ -1,23 +1,24 @@
 {
-    "config_class": "DQNAgentConfig",
+    "config_class": "SarsaAgentConfig",
     "fixed_parameters": {
-        "exp_name": "lunar_lander",
+        "exp_name": "lunar_lander/sarsa_lambda",
         "task_name": "LunarLander-v2",
-        "agent": "DQNAgent",
-        "memory_size": 100000,
-        "batch_size": 10,
+        "agent": "SarsaAgent",
         "exploration_steps": 10000,
         "sgd_update_frequency": 1,
         "gradient_clip": 5,
-        "target_network_update_freq": 200,
         "log_interval": 5000,
         "eval_interval": 25000,
-        "max_steps": 5e6,
+        "max_steps": 1e6,
         "double_q": false,
         "async_actor": false,
-        "save_interval": 50000
+        "save_interval": 50000,
+        "tiles_memsize": 64,
+        "tiles": 4,
+        "num_tilings": 5,
+        "tile_separate": true
     },
     "sweep_parameters": {
-        "discount": [0.99, 0.999]
+        "discount": [0.999]
     }
 }

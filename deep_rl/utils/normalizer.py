@@ -39,6 +39,27 @@ class MeanStdNormalizer(BaseNormalizer):
         return np.clip((x - self.rms.mean) / np.sqrt(self.rms.var + self.epsilon),
                        -self.clip, self.clip)
 
+
+class MinMaxNormalizer(BaseNormalizer):
+    def __init__(self, read_only=False, clip=10.0, epsilon=1e-8):
+        BaseNormalizer.__init__(self, read_only)
+        self.read_only = read_only
+        self.maxes = None
+        self.mins = None
+        self.clip = clip
+        self.epsilon = epsilon
+
+    def __call__(self, x):
+        x = np.asarray(x)
+        if self.maxes is None:
+            self.maxes = np.zeros_like(x)
+            self.mins = np.zeros_like(x)
+        self.maxes = np.maximum(x, self.maxes)
+        self.mins = np.minimum(x, self.mins)
+        range = self.maxes - self.mins
+        return np.true_divide(x, range, out=np.zeros_like(x), where=range != 0, casting='unsafe')
+
+
 class RescaleNormalizer(BaseNormalizer):
     def __init__(self, coef=1.0):
         BaseNormalizer.__init__(self)
