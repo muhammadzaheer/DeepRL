@@ -4,9 +4,9 @@
         "exp_name": "lunar_lander/sarsa_lambda",
         "task_name": "LunarLander-v2",
         "agent": "SarsaAgent",
-        "exploration_steps": 10000,
+        "exploration_steps": 1000,
         "sgd_update_frequency": 1,
-        "gradient_clip": 5,
+        "learning_rate": 0.00001,
         "log_interval": 5000,
         "eval_interval": 25000,
         "max_steps": 1e6,
@@ -16,9 +16,14 @@
         "tiles_memsize": 64,
         "tiles": 4,
         "num_tilings": 5,
-        "tile_separate": true
+        "tile_separate": true,
+        "hidden_units": 64,
+        "epsilon_start": 1.0,
+        "epsilon_end": 0.1,
+        "epsilon_schedule_steps": 20000,
+        "timeout": 1000
     },
     "sweep_parameters": {
-        "discount": [0.999]
+        "discount": [1.0]
     }
 }

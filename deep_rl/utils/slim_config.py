@@ -139,7 +139,6 @@ class SarsaAgentConfig(SlimConfig):
 
         self.optimizer_fn = None
         self.gradient_clip = None
-        self.sgd_update_frequency = None
 
         self.tiles_memsize = None
         self.tiles = None
