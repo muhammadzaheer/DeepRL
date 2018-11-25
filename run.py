@@ -29,10 +29,11 @@ if __name__ == '__main__':
     parser.add_argument('--run', default=0,type=int)
 
     args = parser.parse_args()
+    project_root = os.path.abspath(os.path.dirname(__file__))
+    sweeper = Sweeper(os.path.join(project_root, args.config_file))
 
-    sweeper = Sweeper(args.config_file)
     cfg = sweeper.parse(args.id)
-
+    cfg.data_root = os.path.join(project_root, 'data', 'output')
     set_one_thread()
     random_seed()
     select_device(-1)
@@ -47,7 +48,7 @@ if __name__ == '__main__':
     # Setting up the logger
     logdir = cfg.get_logdir()
     log_path = os.path.join(logdir, 'log')
-    cfg.logger = setup_logger(log_path, stdout=False)
+    cfg.logger = setup_logger(log_path, stdout=True)
     cfg.log_config(cfg.logger)
 
     # Initializing the agent and running the experiment

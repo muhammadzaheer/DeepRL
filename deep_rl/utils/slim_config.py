@@ -31,8 +31,9 @@ class SlimConfig:
         self.eval_interval = 0
         self.eval_episodes = 10
 
-        project_root = os.getcwd()
-        self.data_root = os.path.join(project_root, 'data', 'output')
+        # project_root = os.getcwd()
+        # self.data_root = os.path.join(project_root, 'data', 'output')
+        self.data_root = None
 
     @property
     def eval_env(self):

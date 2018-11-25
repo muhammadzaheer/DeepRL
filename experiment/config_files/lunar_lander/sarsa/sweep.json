@@ -1,7 +1,7 @@
 {
     "config_class": "SarsaAgentConfig",
     "fixed_parameters": {
-        "exp_name": "lunar_lander/sarsa_lambda/sweeps",
+        "exp_name": "lunar_lander/sarsa/sweeps",
         "task_name": "LunarLander-v2",
         "agent": "SarsaAgent",
 
