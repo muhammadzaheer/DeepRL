@@ -16,7 +16,7 @@ from .misc import *
 
 def setup_logger(log_file, level=logging.INFO, stdout=False):
     logger = logging.getLogger(log_file)
-    formatter = logging.Formatter('%(asctime)s : %(message)s')
+    formatter = logging.Formatter('%(asctime)s | %(message)s')
 
     file_handler = logging.FileHandler(log_file, mode='w')
     file_handler.setFormatter(formatter)
