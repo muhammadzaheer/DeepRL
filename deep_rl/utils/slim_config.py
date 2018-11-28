@@ -176,5 +176,13 @@ class SarsaAgentConfig(SlimConfig):
         return attrs
 
 
+class SarsaLmbdaAgentConfig(SarsaAgentConfig):
+    DEVICE = torch.device('cpu')
+    def __init__(self):
+        super(SarsaLmbdaAgentConfig, self).__init__()
+        self.agent = 'SarsaLmbdaAgent'
+        self.lmbda = 0.0
+
+
 
 

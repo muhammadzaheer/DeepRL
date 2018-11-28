@@ -9,6 +9,6 @@
 
 cd $SLURM_SUBMIT_DIR/../../../
 export OMP_NUM_THREADS=1
-module load singularity/2.5.2
+module load singularity
 
 singularity exec -B /scratch/mzaheer/DeepRL cf-env.img parallel --jobs 30 --results /scratch/mzaheer/DeepRL/data/parallel_output/lunar_lander/sarsa python /scratch/mzaheer/DeepRL/run.py --id {1} --config-file experiment/config_files/lunar_lander/sarsa/sweep.json ::: $(seq 300 389)
