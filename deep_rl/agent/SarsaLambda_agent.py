@@ -184,7 +184,6 @@ class SarsaLmbdaAgent(BaseAgent):
         self.next_action = self.select_action(q_next)
 
         # UPDATE
-        # if self.total_steps > self.config.exploration_steps:
         q_next = tensor(q_next)[self.next_action]
         q_next = self.config.discount * q_next * (1 - tensor(int(done)))
         q_next.add_(tensor(reward))
@@ -193,10 +192,7 @@ class SarsaLmbdaAgent(BaseAgent):
 
         delta = (q_next - q).item()
 
-        # loss = (q_next - q).pow(2).mul(0.5).mean()
         self.optimizer.zero_grad()
-        # q.backward()
-        # q = q.gather(1, Variable(tensor([[self.action]])))
         q.backward()
         self.trace.mul(self.config.discount * self.config.lmbda)
         self.trace.add_network_gradient(self.network)
@@ -217,7 +213,7 @@ class SarsaLmbdaAgent(BaseAgent):
             self.episode_reward = 0
 
     def select_action(self, q_values):
-        if self.total_steps < self.config.exploration_steps or np.random.rand() < self.config.random_action_prob():
+        if np.random.rand() < self.config.random_action_prob():
             return np.random.randint(0, len(q_values))
         else:
             return np.argmax(q_values)
