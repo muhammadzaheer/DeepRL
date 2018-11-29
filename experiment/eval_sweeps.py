@@ -17,7 +17,7 @@ def extract_line(lines, max_steps, interval=0):
         for line in lines:
             if 'total steps' not in line:
                 continue
-            num_steps = float(lines[-2].split("|")[1].split(",")[0].split(" ")[-1])
+            num_steps = float(line.split("|")[1].split(",")[0].split(" ")[-1])
             if num_steps > max_steps:
                 break
             reward = float(line.split("|")[1].split(",")[2].split("/")[0].split(" ")[-1])
@@ -26,6 +26,16 @@ def extract_line(lines, max_steps, interval=0):
         return rewards_over_time
     except:
         raise
+
+
+def get_max_steps(lines):
+    for line in lines[::-1]:
+        if 'total steps' in line:
+            max_steps = float(line.split("|")[1].split(",")[0].split(" ")[-1])
+            return max_steps
+    return -1
+
+
 
 
 def _eval_lines(config_file, start_idx, end_idx, max_steps):
@@ -52,21 +62,11 @@ def _eval_lines(config_file, start_idx, end_idx, max_steps):
             continue
         # ugly parse based on the log_file format
         try:
-            try:
-                num_steps = float(lines[-2].split("|")[1].split(",")[0].split(" ")[-1])
-            except ValueError:
-                continue
-            # episodes = int(lines[-1].split("|")[2].split(":")[1])
-            if max_steps == num_steps or True:
+            num_steps = get_max_steps(lines)
+            if num_steps >= max_steps:
                 assert idx % sweeper.total_combinations == cfg.param_setting
-                avg_eval_steps = extract_line(lines, max_steps, interval=5000)
-                # eval[idx % sweeper.total_combinations].append(episodes)
-                try:
-                    eval[idx % sweeper.total_combinations].append(np.mean(avg_eval_steps))
-                except:
-                    pass
-                # eval_lines[idx % sweeper.total_combinations].append(avg_eval_steps)
-                # eval[idx % sweeper.total_combinations].append(num_steps)
+                avg_eval_steps = extract_line(lines, max_steps, interval=10000)
+                eval[idx % sweeper.total_combinations].append(np.mean(avg_eval_steps))
 
         except IndexError:
             print(idx)
@@ -74,24 +74,29 @@ def _eval_lines(config_file, start_idx, end_idx, max_steps):
     summary = list(map(lambda x: (x[0], np.mean(x[1]), np.std(x[1]), len(x[1])), enumerate(eval)))
     summary = sorted(summary, key=lambda s: s[1], reverse=False)
 
-    # eval_lines = list(map(lambda x: (x[0], np.mean(np.stack(x[1]), axis=0)), enumerate(eval_lines)))
-    # sorted_eval_lines = sorted(eval_lines, key=lambda x: np.sum(x[1]), reverse=False)
-
     for idx, mean, std, num_runs in summary:
         print("Param Setting # {:>3d} | Average num of episodes: {:>10.2f} +/- {:>5.2f} ({:>2d} runs) {} | ".format(
             idx, mean, std, num_runs, sweeper.param_setting_from_id(idx)))
 
 
-    # for idx, lines in sorted_eval_lines:
-    #     print("Param Setting # {:>3d} | {} | ".format(
-    #         idx, lines))
-    #     plt.plot(lines, label=idx)
-    # plt.legend()
-    # plt.savefig('abc.png')
-
-
 if __name__ == '__main__':
     np.set_printoptions(precision=0)
-    _eval_lines(config_file='experiment/config_files/mountain_car/sarsa/sweep.json', start_idx=0,
-          end_idx=107, max_steps=300000)
+    # _eval_lines(config_file='experiment/config_files/mountain_car/sarsa/sweep.json', start_idx=0,
+    #       end_idx=107, max_steps=300000)
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa/sweep_2.json', start_idx=0,
+    #       end_idx=324, max_steps=2000000)
 
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa/sweep_3.json', start_idx=0,
+    #       end_idx=60, max_steps=2000000)
+
+    # _eval_lines(config_file='experiment/config_files/mountain_car/sarsa_lmbda/sweep.json', start_idx=0,
+    #       end_idx=162, max_steps=300000)
+
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa_lmbda/sweep_h512.json', start_idx=0,
+    #       end_idx=75, max_steps=2000000)
+
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa_lmbda/sweep_h512.json', start_idx=0,
+    #       end_idx=75, max_steps=1500000)
+
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa_lmbda/sweep_h1024.json', start_idx=0,
+    #       end_idx=75, max_steps=1500000)
