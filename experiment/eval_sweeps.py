@@ -58,6 +58,7 @@ def _eval_lines(config_file, start_idx, end_idx, max_steps):
         except FileNotFoundError:
             continue
 
+
         if len(lines) == 0:
             continue
         # ugly parse based on the log_file format
@@ -100,3 +101,17 @@ if __name__ == '__main__':
 
     # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa_lmbda/sweep_h1024.json', start_idx=0,
     #       end_idx=75, max_steps=1500000)
+
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa_lmbda/sweep_h2048.json', start_idx=0,
+    #       end_idx=45, max_steps=2000000)
+
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa_lmbda/sweep_h4096.json', start_idx=0,
+    #       end_idx=45, max_steps=1400000)
+
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_h1_128_h2_64.json', start_idx=0,
+    #       end_idx=135, max_steps=1000000)
+
+    _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_online.json', start_idx=0,
+          end_idx=48, max_steps=1000000)
+
+

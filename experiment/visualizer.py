@@ -8,7 +8,7 @@ class RunLines(object):
     Draws lines with multiple runs along with their error bars
     """
     def __init__(self, path_formatters, num_runs, num_datapoints, labels, parser_func=None, save_path=None, xlabel=None, ylabel=None, interval=500,
-                 ylim=(-200, 200)):
+                 ylim=(-200, 300)):
         """
         :param path_formatters: list of generic data paths for each line
                                 in which run number can be substituted
@@ -110,25 +110,20 @@ class RunLinesIndividual(object):
             nd = self.num_datapoints[idx]
             label = self.labels[idx]
             lines = None
-            for run in range(nr):
+            is_label = False
+            for run_id, run in enumerate(range(nr)):
                 path = pf.format(run)
                 line = self.parser_func(path, nd, self.interval)
                 if line is not None:
                     lines = np.concatenate([lines, np.array([line])], axis=0) if lines is not None else np.array([line])
-                    ax1.plot(range(nd // self.interval), line, label=label, linewidth=0.2, color=colors[idx])
-            # try:
-            #     mean = np.nanmean(lines, axis=0)
-            #
-            #     std = np.nanstd(lines, axis=0)
-            #     ax1.fill_between(range(nd // self.interval), mean - std, mean + std,
-            #                      alpha=0.1, color=colors[idx])
-            #     ax1.plot(range(nd // self.interval), mean, label=label, linewidth=0.5, color=colors[idx])
-            #
-            # except:
-            #     raise
-        # labels = map(lambda x: str(int((x * 10000 / 1000))) + 'K', range(0, 5000, 100))
-        # plt.xticks(range(0, 1001, 100), labels)
-        ax1.set_ylim(-200, 200)
+                    if not is_label:
+                        ax1.plot(range(nd // self.interval), line, label=label, linewidth=1.0, color=colors[run_id],
+                                 linestyle=':')
+                        is_label = True
+                    else:
+                        ax1.plot(range(nd // self.interval), line, linewidth=1.0, color=colors[run_id],
+                                 linestyle=':')
+        ax1.set_ylim(-200, 300)
         ax1.legend(loc="best", frameon=False)
         if self.xlabel is not None:
             ax1.set_xlabel(self.xlabel)

@@ -4,6 +4,23 @@ from experiment.sweeper import Sweeper
 import argparse
 
 
+def set_optimizer_fn(cfg):
+    if cfg.optimizer_type == 'SGD':
+        cfg.optimizer_fn = lambda params: torch.optim.SGD(params, cfg.learning_rate)
+    elif cfg.optimizer_type == 'RMSProp':
+        cfg.optimizer_fn = lambda params: torch.optim.RMSprop(params, cfg.learning_rate)
+    else:
+        raise NotImplementedError
+
+def set_network_fn(cfg):
+    if cfg.tile_coding:
+        cfg.network_fn = lambda: VanillaNet(cfg.action_dim, FCBody(cfg.tiles_memsize * cfg.state_dim,
+                                                                   hidden_units=tuple(cfg.hidden_units)))
+    else:
+        cfg.network_fn = lambda: VanillaNet(cfg.action_dim, FCBody(cfg.state_dim,
+                                                                   hidden_units=tuple(cfg.hidden_units)))
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="run_file")
@@ -24,8 +41,15 @@ if __name__ == '__main__':
     # Setting up the config
     cfg.task_fn = lambda: Task(cfg.task_name)
     cfg.eval_env = cfg.task_fn()
-    cfg.optimizer_fn = lambda params: torch.optim.SGD(params, cfg.learning_rate)
-    cfg.network_fn = lambda: VanillaNet(cfg.action_dim, FCBody(cfg.tiles_memsize * cfg.state_dim, hidden_units=(cfg.hidden_units,)))
+
+    # Setting up the optimizer
+    set_optimizer_fn(cfg)
+
+    if cfg.replay:
+        cfg.replay_fn = lambda: Replay(memory_size=int(cfg.memory_size), batch_size=cfg.batch_size)
+
+    set_network_fn(cfg)
+
     cfg.random_action_prob = LinearSchedule(cfg.epsilon_start, cfg.epsilon_end, cfg.epsilon_schedule_steps)
 
     # Setting up the logger
