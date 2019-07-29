@@ -1,0 +1,44 @@
+{
+    "config_class": "DQNAgentConfig",
+    "fixed_parameters": {
+        "exp_name": "replay/lunar_lander/exp_sarsa_target_epsilon",
+        "task_name": "LunarLander-v2",
+        "agent": "DQNExpectedSarsaAgent",
+
+        "discount": 0.99,
+        "tile_coding": false,
+
+        "double_q": false,
+        "async_actor": false,
+
+        "replay": true,
+        "memory_size": 100000,
+
+        "epsilon_start": 0.1,
+        "epsilon_end": 0.1,
+        "epsilon_schedule_steps": 10,
+        "exploration_steps": 0,
+
+        "hidden_units": [256],
+
+        "optimizer_type": "RMSProp",
+        "sgd_update_frequency": 1,
+        "gradient_clip": 5,
+
+        "log_interval": 10000,
+        "eval_interval": 50000,
+        "eval_episodes": 100,
+        "max_steps": 1000000,
+        "save_interval": 0,
+        "timeout": 1000,
+
+        "use_target_network": true,
+        "target_network_update_freq": 1,
+        "batch_size": 32
+    },
+    "sweep_parameters": {
+        "learning_rate": [0.001, 0.0001, 0.00001],
+        "num_replay": [4],
+        "target_epsilon": [0.1, 0.05, 0.01, 0.001, 0.0]
+    }
+}
