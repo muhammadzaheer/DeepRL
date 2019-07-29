@@ -6,7 +6,7 @@ import argparse
 
 def set_optimizer_fn(cfg):
     if cfg.optimizer_type == 'SGD':
-        cfg.optimizer_fn = lambda params: torch.optim.SGD(params, cfg.learning_rate)
+        cfg.optimizer_fn = lambda params: SGD(params, cfg.learning_rate)
     elif cfg.optimizer_type == 'RMSProp':
         cfg.optimizer_fn = lambda params: torch.optim.RMSprop(params, cfg.learning_rate)
     else:
@@ -15,6 +15,16 @@ def set_optimizer_fn(cfg):
 def set_network_fn(cfg):
     if cfg.tile_coding:
         cfg.network_fn = lambda: VanillaNet(cfg.action_dim, FCBody(cfg.tiles_memsize * cfg.state_dim,
+                                                                   hidden_units=tuple(cfg.hidden_units)))
+    elif cfg.lift_project:
+        cfg.network_fn = lambda: VanillaLPNet(cfg.action_dim, FCLPBody(cfg.state_dim,
+                                                                   hidden_units=tuple(cfg.hidden_units), radius=cfg.radius),
+                                              flp=cfg.flp, radius=cfg.radius)
+    elif cfg.l2:
+        cfg.network_fn = lambda: VanillaNetL2(cfg.action_dim, FCBody(cfg.state_dim,
+                                                                   hidden_units=tuple(cfg.hidden_units)))
+    elif cfg.drop:
+        cfg.network_fn = lambda: VanillaNetDrop(cfg.action_dim, FCBody(cfg.state_dim,
                                                                    hidden_units=tuple(cfg.hidden_units)))
     else:
         cfg.network_fn = lambda: VanillaNet(cfg.action_dim, FCBody(cfg.state_dim,
@@ -51,6 +61,7 @@ if __name__ == '__main__':
     set_network_fn(cfg)
 
     cfg.random_action_prob = LinearSchedule(cfg.epsilon_start, cfg.epsilon_end, cfg.epsilon_schedule_steps)
+    cfg.discount_schedule = LinearScheduleAdam(cfg.epsilon_start, cfg.epsilon_end, cfg.epsilon_schedule_steps)
 
     # Setting up the logger
     logdir = cfg.get_logdir()

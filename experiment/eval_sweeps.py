@@ -36,8 +36,6 @@ def get_max_steps(lines):
     return -1
 
 
-
-
 def _eval_lines(config_file, start_idx, end_idx, max_steps):
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
     sweeper = Sweeper(os.path.join(project_root, config_file))
@@ -76,7 +74,7 @@ def _eval_lines(config_file, start_idx, end_idx, max_steps):
     summary = sorted(summary, key=lambda s: s[1], reverse=False)
 
     for idx, mean, std, num_runs in summary:
-        print("Param Setting # {:>3d} | Average num of episodes: {:>10.2f} +/- {:>5.2f} ({:>2d} runs) {} | ".format(
+        print("Param Setting # {:>3d} | Average reward: {:>10.2f} +/- {:>5.2f} ({:>2d} runs) {} | ".format(
             idx, mean, std, num_runs, sweeper.param_setting_from_id(idx)))
 
 
@@ -108,10 +106,157 @@ if __name__ == '__main__':
     # _eval_lines(config_file='experiment/config_files/lunar_lander/sarsa_lmbda/sweep_h4096.json', start_idx=0,
     #       end_idx=45, max_steps=1400000)
 
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_tc_online_h128.json', start_idx=0,
+    #       end_idx=48, max_steps=1000000)
+    #
+    # print("")
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_tc_online_h512.json', start_idx=0,
+    #       end_idx=48, max_steps=1000000)
+
+    # print("sweep_h128")
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_h128.json', start_idx=0,
+    #       end_idx=100, max_steps=1000000)
+    #
+    # print("sweep_h128_h64")
     # _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_h1_128_h2_64.json', start_idx=0,
     #       end_idx=135, max_steps=1000000)
 
-    _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_online.json', start_idx=0,
-          end_idx=48, max_steps=1000000)
+
+    # print("sw_h512")
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_h128.json', start_idx=0,
+    #       end_idx=100, max_steps=1000000)
+    #
+    # print("sw_h512_notarget")
+    # _eval_lines(config_file='experiment/config_files/lunar_lander/dqn/sweep_h1_128_h2_64.json', start_idx=0,
+    #       end_idx=135, max_steps=1000000)
+
+    # print("sw_h512")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_dqn_h512.json', start_idx=0,
+    #       end_idx=15, max_steps=850000)
+    #
+    # print("sw_h512_notarget")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_dqn_h512_notarget.json', start_idx=0,
+    #       end_idx=15, max_steps=850000)
+    # print("sw_dqb")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_dqn.json', start_idx=0,
+    #       end_idx=15, max_steps=850000)
+    #
+    # print("sw_dqn_notarget")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_dqn_notarget.json', start_idx=0,
+    #       end_idx=15, max_steps=850000)
 
 
+    # print("sw_h512")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_dqn_h512.json', start_idx=0,
+    #       end_idx=15, max_steps=1000000)
+    #
+    # print("sw_lp_h512")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_lp_dqn_h512.json', start_idx=0,
+    #       end_idx=15, max_steps=1000000)
+
+    # print("sw_h1024")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_lp_dqn_h128_h64.json', start_idx=0,
+    #       end_idx=15, max_steps=1000000)
+
+    # print("sw_lp_h1024")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_dqn_h512.json', start_idx=0,
+    #       end_idx=15, max_steps=1000000)
+
+
+
+    #
+    # print("sw_h512")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_tc_dqn_h512.json', start_idx=0,
+    #       end_idx=12, max_steps=500000)
+    #
+    # print("sw_h512_notarget")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_tc_dqn_h512_notarget.json', start_idx=0,
+    #       end_idx=12, max_steps=500000)
+    # print("sw_dqb")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_tc_dqn_h1024.json', start_idx=0,
+    #       end_idx=12, max_steps=350000)
+    #
+    # print("sw_dqn_notarget")
+    # _eval_lines(config_file='experiment/config_files/stable_q/sw_tc_dqn_h1024_notarget.json', start_idx=0,
+    #       end_idx=12, max_steps=350000)
+
+
+    # print("sw_dqn")
+    # _eval_lines(config_file='experiment/config_files/l2/sw_dqn.json', start_idx=0,
+    #       end_idx=9, max_steps=550000)
+    #
+    # print("sw_dqn_l2")
+    # _eval_lines(config_file='experiment/config_files/l2/sw_dqn_l2.json', start_idx=0,
+    #       end_idx=36, max_steps=550000)
+    #
+    # print("sw_dqn_l2_notarget")
+    # _eval_lines(config_file='experiment/config_files/l2/sw_dqn_l2_notarget.json', start_idx=0,
+    #       end_idx=36, max_steps=550000)
+
+    # print("sw_dqn")
+    # _eval_lines(config_file='experiment/config_files/l2/sw_dqn.json', start_idx=0,
+    #       end_idx=9, max_steps=1000000)
+    #
+    # print("sw_dqn_l2")
+    # _eval_lines(config_file='experiment/config_files/l2/sw_dqn_l2.json', start_idx=0,
+    #       end_idx=36, max_steps=550000)
+    #
+    # print("sw_dqn_l2_notarget")
+    # _eval_lines(config_file='experiment/config_files/l2/sw_dqn_l2_notarget.json', start_idx=0,
+    #       end_idx=36, max_steps=550000)
+
+    # print("sw_dqn_dropout")
+    # _eval_lines(config_file='experiment/config_files/dropout/sw_dqn_drop.json', start_idx=0,
+    #       end_idx=45, max_steps=1000000)
+    #
+    # print("sw_dqn_dropout_notarget")
+    # _eval_lines(config_file='experiment/config_files/dropout/sw_dqn_drop_notarget.json', start_idx=0,
+    #       end_idx=45, max_steps=1000000)
+
+    # print("sw_dqn_replay")
+    # _eval_lines(config_file='experiment/config_files/replay/sw_dqn_replay.json', start_idx=0,
+    #       end_idx=45, max_steps=1000000)
+    #
+    # print("\n\nsw_dqn_replay_notarget")
+    # _eval_lines(config_file='experiment/config_files/replay/sw_dqn_replay_notarget.json', start_idx=0,
+    #       end_idx=45, max_steps=1000000)
+
+    # print("sw_dqn")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_notarget.json', start_idx=0,
+    #       end_idx=36, max_steps=1000000)
+    #
+    # print("sw_dqn_exp_sarsa")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_expectedsarsa.json', start_idx=0,
+    #       end_idx=36, max_steps=1000000)
+
+    # print("sw_dqn_exp_sarsa_tn512")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_expectedsarsa_tn512.json', start_idx=0,
+    #       end_idx=32, max_steps=1000000)
+
+    # print("sw_dqn_exp_sarsa")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_expectedsarsa_notarget.json', start_idx=0,
+    #       end_idx=36, max_steps=1000000)
+
+    # print("sw_dqn notarget")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_notarget.json', start_idx=0,
+    #       end_idx=36, max_steps=1000000)
+    # #
+    # print("sw_dqn notarget_noreplay")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_noreplay.json', start_idx=0,
+    #       end_idx=12, max_steps=1000000)
+    #
+    # print("sw_dqn notarget_noreplay_v2")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_v2.json', start_idx=0,
+    #       end_idx=36, max_steps=500000)
+
+    # print("sw_dqn notarget_noreplay_v2_schedule")
+    # _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_v2_schedule.json', start_idx=0,
+    #       end_idx=48, max_steps=1000000)
+
+    print("sw_dqn")
+    _eval_lines(config_file='experiment/config_files/fitted_q/exp_sarsa_target_epsilon.json', start_idx=0,
+          end_idx=45, max_steps=1000000)
+
+    print("sw_dqn")
+    _eval_lines(config_file='experiment/config_files/fitted_q/sw_dqn_fittedq_notarget.json', start_idx=0,
+          end_idx=36, max_steps=1000000)

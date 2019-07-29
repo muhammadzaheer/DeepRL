@@ -31,3 +31,29 @@ class LinearSchedule:
         val = self.current
         self.current = self.bound(self.current + self.inc * steps, self.end)
         return val
+
+
+class LinearScheduleAdam:
+    def __init__(self, start, end=None, steps=None):
+
+        self.starts = [0.9, 0.99]
+        self.ends = [0.99, 1.0]
+
+        self.inc = (self.ends[0] - self.starts[0]) / float(200000)
+
+        self.current = self.starts[0]
+        self.end = self.ends[0]
+        self.step = 0
+
+
+    def __call__(self, steps=1):
+        val = self.current
+        self.current = min(self.current + self.inc * steps, self.end)
+
+        if self.step == 200000:
+            self.inc = (self.ends[1] - self.starts[1]) / float(600000)
+            self.end = self.ends[1]
+
+        self.step +=1
+
+        return val

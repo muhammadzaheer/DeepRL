@@ -65,7 +65,7 @@ def draw_lunar_lander(save_path):
 
     v = RunLines(path_formatters, runs, num_datapoints,
                  labels, parser_func=parser_func,
-                 save_path=save_path, xlabel="Number of steps", ylabel="Episodes Completed",
+                 save_path=save_path, xlabel="Number of steps (in 10000)", ylabel="Episodes Completed",
                  interval=10000)
     v.draw()
 
@@ -165,7 +165,7 @@ def draw_lunar_lander_traces_h2048(save_path, max_steps=2000000):
 
     v = RunLines(path_formatters, runs, num_datapoints,
                  labels, parser_func=parser_func,
-                 save_path=save_path, xlabel="Number of steps", ylabel="Episodes Completed",
+                 save_path=save_path, xlabel="Number of steps", ylabel="Reward",
                  interval=10000)
     v.draw()
 
@@ -197,7 +197,7 @@ def draw_lunar_lander_traces_h4096(save_path, max_steps=2000000):
 
     v = RunLines(path_formatters, runs, num_datapoints,
                  labels, parser_func=parser_func,
-                 save_path=save_path, xlabel="Number of steps", ylabel="Episodes Completed",
+                 save_path=save_path, xlabel="Number of steps", ylabel="Reward",
                  interval=10000)
     v.draw()
 
@@ -229,7 +229,7 @@ def draw_lunar_lander_individual(save_path):
 
     v = RunLinesIndividual(path_formatters, runs, num_datapoints,
                  labels, parser_func=parser_func,
-                 save_path=save_path, xlabel="Number of steps", ylabel="Episodes Completed",
+                 save_path=save_path, xlabel="Number of steps", ylabel="Reward",
                  interval=10000)
     v.draw()
 
@@ -262,7 +262,7 @@ def draw_lunar_lander_traces(save_path, max_steps=2000000):
 
     v = RunLines(path_formatters, runs, num_datapoints,
                  labels, parser_func=parser_func,
-                 save_path=save_path, xlabel="Number of steps", ylabel="Episodes Completed",
+                 save_path=save_path, xlabel="Number of steps", ylabel="Reward",
                  interval=10000)
     v.draw()
 
@@ -292,8 +292,8 @@ def draw_mountain_car(save_path):
 
     v = RunLines(path_formatters, runs, num_datapoints,
                  labels, parser_func=parser_func,
-                 save_path=save_path, xlabel="Number of steps", ylabel="Episodes Completed",
-                 interval=10000, ylim=(-400, -100))
+                 save_path=save_path, xlabel="Number of steps", ylabel="Reward",
+                 interval=10000)
     v.draw()
 
 
@@ -321,7 +321,7 @@ def draw_lunar_lander_dqn(settings, save_path, max_steps=2000000):
 
     v = RunLines(path_formatters, runs, num_datapoints,
                  labels, parser_func=parser_func,
-                 save_path=save_path, xlabel="Number of steps", ylabel="Episodes Completed",
+                 save_path=save_path, xlabel="Number of steps", ylabel="Reward",
                  interval=10000)
     v.draw()
 
@@ -386,12 +386,98 @@ if __name__ == '__main__':
     #             ("experiment/config_files/lunar_lander/dqn/sweep_h1_128_h2_64.json", 16, 7, 1000000, "TNUF 8192 - BS 32")]
     #
 
-    settings = [("experiment/config_files/lunar_lander/dqn/sweep_h128.json", 9, 4, 1000000, "TNUF 8192 - Discount 0.999 - h128"),
-                ("experiment/config_files/lunar_lander/dqn/sweep_h512.json", 0, 4, 1000000, "TNUF 512 - Discount 0.99 - h512"),
-                ("experiment/config_files/lunar_lander/dqn/sweep_h2048.json", 0, 4, 1000000, "TNUF 512 - Discount 0.99 - h2048")]
+    # settings = [("experiment/config_files/lunar_lander/dqn/sweep_tc_online_h128.json", 7, 4, 1000000, "TNUF 8192 - Discount 0.999 - h128"),
+    #             ("experiment/config_files/lunar_lander/dqn/sweep_tc_online_h512.json", 7, 4, 1000000, "TNUF 512 - Discount 0.999 - h512"),
+    #             ("experiment/config_files/lunar_lander/dqn/sweep_online.json", 10, 4, 1000000, "Without TC; TNUF Update 8192 - Discount 0.999 - h512")]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/lunar_lander_dqn/sweep_tc_online/best.png", max_steps=1000000)
 
-    draw_lunar_lander_dqn(settings, save_path="plots/lunar_lander_dqn/sweep_onelayer/best.png", max_steps=1000000)
+    # settings = [("experiment/config_files/stable_q/sw_dqn_h512.json", 0, 5, 800000, "DQN"),
+    #             ("experiment/config_files/stable_q/sw_dqn_h512_notarget.json", 2, 4, 800000, "DQN - No Target Net")
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/stable_q/p1_one_hidden.pdf", max_steps=800000)
+    #
+    # settings = [("experiment/config_files/stable_q/sw_dqn_h512.json", 0, 3, 1000000, "DQN"),
+    #             ("experiment/config_files/stable_q/sw_lp_dqn_h512.json", 1, 3, 1000000, "DQN LP"),
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/stable_q/lp_1.pdf", max_steps=1000000)
 
 
+    # settings = [("experiment/config_files/stable_q/sw_dqn.json", 1, 3, 1000000, "DQN"),
+    #             ("experiment/config_files/stable_q/sw_lp_dqn_h128_h64.json", 2, 3, 1000000, "DQN LP"),
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/stable_q/lp_h2.pdf", max_steps=1000000)
+
+
+    # settings = [("experiment/config_files/stable_q/sw_dqn_h512.json", 0, 3, 500000, "DQN"),
+    #             ("experiment/config_files/stable_q/sw_tc_dqn_h512.json", 0, 3, 500000, "DQN TC"),
+    #             ("experiment/config_files/stable_q/sw_tc_dqn_h512_notarget.json", 2, 3, 500000, "DQN TC - No Target Net")
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/stable_q/p3_tc_h512.pdf", max_steps=500000)
+
+    # settings = [("experiment/config_files/stable_q/sw_dqn.json", 1, 5, 800000, "DQN"),
+    #             ("experiment/config_files/stable_q/sw_dqn_notarget.json", 2, 4, 800000, "DQN - No Target Net")
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/stable_q/p2_two_hidden.pdf", max_steps=800000)
+
+    # settings = [("experiment/config_files/l2/sw_dqn.json", 0, 3, 500000, "DQN"),
+    #             ("experiment/config_files/l2/sw_dqn_l2.json", 0, 3, 500000, "DQN L2"),
+    #             ("experiment/config_files/l2/sw_dqn_l2_notarget.json", 1, 3, 500000, "DQN L2 I seeNTN"),
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/rl_mooc/l2.pdf", max_steps=500000)
+
+    # settings = [("experiment/config_files/dropout/sw_dqn_drop.json", 6, 3, 1000000, "DQN Drop"),
+    #             ("experiment/config_files/dropout/sw_dqn_drop_notarget.json", 14, 3, 1000000, "DQN Drop NTN"),
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/rl_mooc/drop.pdf", max_steps=1000000)
+
+    # settings = [("experiment/config_files/dropout/sw_dqn_drop.json", 6, 3, 1000000, "DQN Drop"),
+    #             ("experiment/config_files/dropout/sw_dqn_drop_notarget.json", 14, 3, 1000000, "DQN Drop NTN"),
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/rl_mooc/drop.pdf", max_steps=1000000)
+
+    # settings = [("experiment/config_files/replay/sw_dqn_replay.json", 10, 3, 1000000, "DQN Replay (26 replay steps)"),
+    #             ("experiment/config_files/replay/sw_dqn_replay.json", 7, 3, 1000000, "DQN Replay (16 replay steps)"),
+    #             ("experiment/config_files/replay/sw_dqn_replay.json", 4, 3, 1000000, "DQN Replay (8 replay steps)"),
+    #             ("experiment/config_files/replay/sw_dqn_replay.json", 1, 3, 1000000, "DQN Replay (4 replay steps)"),
+    #             ("experiment/config_files/l2/sw_dqn.json", 0, 3, 1000000, "DQN Replay (1 replay steps)"),
+    #             # ("experiment/config_files/replay/sw_dqn_replay_notarget.json", 2, 3, 1000000, "DQN Replay NTN"),
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/rl_mooc/replay_steps.pdf", max_steps=1000000)
+
+    # settings = [# ("experiment/config_files/fitted_q/sw_dqn_fittedq.json", 7, 3, 1000000, "DQN (16 replay steps, gamma 0.99)"),
+    #             # ("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget.json", 9, 3, 1000000, "DQN w/o t-net (16 replay steps, gamma 0.99)"),
+    #             ("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_noreplay.json", 0, 3, 1000000, "DQN w/o t-net  (1 replay step, gamma 0.99)"),
+    #             ("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_v2.json", 7, 3, 800000, "DQN w/o t-net  (16 replay steps, gamma 1.0)"),
+    #
+    #
+    #             ("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_v2_schedule.json", 1, 3, 1000000, "DQN w/o t-net  (1 replay steps, gamma schedule)"),
+    #             # ("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_v2_schedule.json", 0, 2, 1000000, "DQN w/o t-net  (1 replay steps, gamma schedule) v2"),
+    #             ("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_v2_schedule.json", 13, 3, 1000000, "DQN w/o t-net  (8 replay steps, gamma schedule)"),
+    #
+    #             # ("experiment/config_files/replay/sw_dqn_replay_notarget.json", 2, 3, 1000000, "DQN Replay NTN"),
+    #             ]
+    #
+    # draw_lunar_lander_dqn(settings, save_path="plots/rl_mooc/fitted_q.pdf", max_steps=1000000)
+
+    settings = [("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget_noreplay.json", 0, 3, 1000000, "DQN (1 replay step, gamma 0.99)"),
+                ("experiment/config_files/fitted_q/sw_dqn_fittedq_notarget.json", 1, 3, 1000000, "DQN (4 replay steps, gamma 0.99)"),
+                ("experiment/config_files/fitted_q/exp_sarsa_target_epsilon.json", 7, 3, 1000000, "Expected Sarsa (4 replay steps, gamma 0.99, target_pi eps 0.01"),
+                # ("experiment/config_files/fitted_q/exp_sarsa_target_epsilon.json", 4, 3, 1000000, "Expected Sarsa (4 replay steps, gamma 0.99, target pi 0.05"),
+                #("experiment/config_files/fitted_q/exp_sarsa_target_epsilon.json", 10, 3, 1000000, "Expected Sarsa (4 replay steps, gamma 0.99, target_pi eps 0.001"),
+                # ("experiment/config_files/fitted_q/exp_sarsa_target_epsilon.json", 1, 3, 1000000, "Expected Sarsa (4 replay steps, gamma 0.99, targ_pi eps 0.1"),
+
+                ]
+
+    draw_lunar_lander_dqn(settings, save_path="plots/rl_mooc/plot.pdf", max_steps=1000000)
 
 

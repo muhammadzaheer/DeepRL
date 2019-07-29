@@ -4,20 +4,35 @@
         "exp_name": "lunar_lander/dqn",
         "task_name": "LunarLander-v2",
         "agent": "DQNAgent",
-        "memory_size": 100000,
-        "batch_size": 10,
-        "exploration_steps": 10000,
-        "sgd_update_frequency": 1,
-        "gradient_clip": 5,
-        "target_network_update_freq": 200,
-        "log_interval": 5000,
-        "eval_interval": 25000,
-        "max_steps": 5e6,
+
+        "discount": 1.0,
+        "tile_coding": false,
+
         "double_q": false,
         "async_actor": false,
-        "save_interval": 50000
-    },
-    "sweep_parameters": {
-        "discount": [0.99, 0.999]
+
+        "replay": true,
+        "memory_size": 100000,
+        "batch_size": 32,
+
+        "epsilon_start": 1.0,
+        "epsilon_end": 0.1,
+        "epsilon_schedule_steps": 100000,
+        "exploration_steps": 10000,
+
+        "hidden_units": [1024, 512],
+
+        "learning_rate": 0.001,
+        "optimizer_type": "RMSProp",
+        "sgd_update_frequency": 1,
+        "gradient_clip": 5,
+        "target_network_update_freq": 512,
+
+        "log_interval": 10000,
+        "eval_interval": 50000,
+        "eval_episodes": 100,
+        "max_steps": 1000000,
+        "save_interval": 0,
+        "timeout": 1000
     }
 }

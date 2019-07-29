@@ -8,7 +8,7 @@ class RunLines(object):
     Draws lines with multiple runs along with their error bars
     """
     def __init__(self, path_formatters, num_runs, num_datapoints, labels, parser_func=None, save_path=None, xlabel=None, ylabel=None, interval=500,
-                 ylim=(-200, 300)):
+                 ylim=None):
         """
         :param path_formatters: list of generic data paths for each line
                                 in which run number can be substituted
@@ -38,7 +38,7 @@ class RunLines(object):
         ax1 = fig1.add_subplot(111)
         # colormap = plt.cm.nipy_spectral  # I suggest to use nipy_spectral, Set1,Paired
         colormap = plt.get_cmap('jet')
-        ax1.set_color_cycle([colormap(i) for i in np.linspace(0, 1, len(self.path_formatters))])
+        # ax1.set_color_cycle([colormap(i) for i in np.linspace(0, 1, len(self.path_formatters))])
         for idx, pf in enumerate(self.path_formatters):
             nr = self.num_runs[idx]
             nd = self.num_datapoints[idx]
@@ -55,12 +55,12 @@ class RunLines(object):
                 std = np.nanstd(lines, axis=0)
                 ax1.fill_between(range(nd // self.interval), mean - std, mean + std,
                                  alpha=0.1)
-                ax1.plot(range(nd // self.interval), mean, label=label, linewidth=0.5)
+                ax1.plot(range(nd // self.interval), mean, label=label)
             except:
                 raise
         # labels = map(lambda x: str(int((x * 10000 / 1000))) + 'K', range(0, 5000, 100))
         # plt.xticks(range(0, 1001, 100), labels)
-        ax1.set_ylim(self.ylim[0], self.ylim[1])
+        if self.ylim is not None: ax1.set_ylim(self.ylim[0], self.ylim[1])
         ax1.legend(loc="best", frameon=False)
         if self.xlabel is not None:
             ax1.set_xlabel(self.xlabel)

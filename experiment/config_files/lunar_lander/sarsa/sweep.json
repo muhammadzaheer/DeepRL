@@ -17,10 +17,11 @@
         "epsilon_end": 0.1,
         "epsilon_schedule_steps": 20000,
 
-        "log_interval": 5000,
-        "eval_interval": 25000,
+        "log_interval": 10000,
+        "eval_interval": 50000,
+        "eval_episodes": 100,
         "max_steps": 1e6,
-        "save_interval": 50000,
+        "save_interval": 0,
         "timeout": 1000
     },
     "sweep_parameters": {

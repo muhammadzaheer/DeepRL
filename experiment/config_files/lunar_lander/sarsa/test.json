@@ -1,7 +1,7 @@
 {
     "config_class": "SarsaAgentConfig",
     "fixed_parameters": {
-        "exp_name": "lunar_lander/sarsa_lambda",
+        "exp_name": "lunar_lander/sarsa/test",
         "task_name": "LunarLander-v2",
         "agent": "SarsaAgent",
         "exploration_steps": 1000,
@@ -17,7 +17,7 @@
         "tiles": 4,
         "num_tilings": 5,
         "tile_separate": true,
-        "hidden_units": 64,
+        "hidden_units": 4096,
         "epsilon_start": 1.0,
         "epsilon_end": 0.1,
         "epsilon_schedule_steps": 20000,

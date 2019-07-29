@@ -19,6 +19,56 @@ class VanillaNet(nn.Module, BaseNet):
         y = self.fc_head(phi)
         return y
 
+
+class VanillaNetL2(nn.Module, BaseNet):
+    def __init__(self, output_dim, body):
+        super(VanillaNetL2, self).__init__()
+        self.fc_head = layer_init(nn.Linear(body.feature_dim, output_dim))
+        self.body = body
+        self.to(Config.DEVICE)
+
+    def forward(self, x):
+        phi = self.body(tensor(x))
+        y = self.fc_head(phi)
+        return y, phi
+
+class VanillaNetDrop(nn.Module, BaseNet):
+    def __init__(self, output_dim, body):
+        super(VanillaNetDrop, self).__init__()
+        self.fc_head = layer_init(nn.Linear(body.feature_dim, output_dim))
+        self.body = body
+        self.to(Config.DEVICE)
+
+    def forward(self, x, drop_mask=None):
+        phi = self.body(tensor(x))
+        if drop_mask is not None:
+            phi = phi * drop_mask
+        y = self.fc_head(phi)
+        return y
+
+
+class VanillaLPNet(nn.Module, BaseNet):
+    def __init__(self, output_dim, body, flp=True, radius=8.0):
+        super(VanillaLPNet, self).__init__()
+        if flp:
+            self.fc_head = layer_init(nn.Linear(body.feature_dim+1, output_dim))
+        else:
+            self.fc_head = layer_init(nn.Linear(body.feature_dim, output_dim))
+        self.body = body
+        self.to(Config.DEVICE)
+        self.flp = flp
+        self.radius = radius
+
+    def forward(self, x):
+        phi = self.body(tensor(x))
+        if self.flp:
+            ones = torch.ones(phi.size()[0], 1, dtype=phi.dtype)
+            phi = torch.cat([phi, ones], dim=1)
+            phi = phi * self.radius / torch.norm(phi, 2)
+            phi[:, -1] = phi[:, -1] - self.radius - 2
+        y = self.fc_head(phi)
+        return y
+
 class DuelingNet(nn.Module, BaseNet):
     def __init__(self, action_dim, body):
         super(DuelingNet, self).__init__()

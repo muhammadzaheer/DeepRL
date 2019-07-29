@@ -115,6 +115,22 @@ class DQNAgentConfig(SlimConfig):
 
 
         self.tile_coding = False
+        self.use_target_network = True
+
+        self.lift_project = False
+        self.flp = False
+        self.radius = 8.0
+
+        self.l2 = False
+        self.lmbda = -1.0
+
+        self.num_replay = 1
+
+        self.drop = False
+        self.p = 0.0
+
+        self.target_epsilon = None
+
 
     def __str__(self):
         attrs = self.get_print_attrs()
@@ -137,6 +153,63 @@ class DQNTileAgentConfig(DQNAgentConfig):
     def __init__(self):
         super(DQNAgentConfig, self).__init__()
         self.agent = 'DQNTileAgent'
+
+        self.epsilon_start = None
+        self.epsilon_end = None
+        self.epsilon_schedule_steps = None
+        self.random_action_prob = None
+        self.exploration_steps = None
+
+        self.discount = None
+
+        self.batch_size = None
+        self.optimizer_type = 'RMSProp'
+        self.optimizer_fn = None
+        self.gradient_clip = None
+        self.sgd_update_frequency = None
+
+        self.tiles_memsize = None
+        self.tiles = None
+        self.num_tilings = None
+        self.tile_separate = None
+
+        self.network_fn = None
+        self.target_network_update_freq = None
+
+        self.replay = True
+        self.replay_fn = None
+        self.memory_size = None
+
+        self.async_actor = False
+        self.double_q = False
+
+        self.state_normalizer = RescaleNormalizer()
+        self.reward_normalizer = RescaleNormalizer()
+
+
+        self.tile_coding = False
+
+    def __str__(self):
+        attrs = self.get_print_attrs()
+        s = ""
+        for param, value in attrs.items():
+            s += "{}: {}\n".format(param, value)
+        return s
+
+    def get_print_attrs(self):
+        attrs = dict(self.__dict__)
+        for k in ['state_normalizer', 'reward_normalizer', 'task_fn',
+                  'logger', '_SlimConfig__eval_env', 'random_action_prob',
+                  'optimizer_fn', 'network_fn', 'replay_fn', 'data_root']:
+            del attrs[k]
+        return attrs
+
+
+class DQNLPAgentConfig(DQNAgentConfig):
+    DEVICE = torch.device('cpu')
+    def __init__(self):
+        super(DQNLPAgentConfig, self).__init__()
+        self.agent = 'DQNAgent'
 
         self.epsilon_start = None
         self.epsilon_end = None
