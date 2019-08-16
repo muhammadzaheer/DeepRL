@@ -12,3 +12,8 @@ Expected Sarsa with extra-replay steps for a fixed target
 ```console
 python run.py --id 0 --config-file experiment/config_files/valli/sarsa_target_epsilon.json
 ```
+
+Softmax Agent
+```console
+python run.py --id 0 --config-file experiment/config_files/valli/final.json
+```
