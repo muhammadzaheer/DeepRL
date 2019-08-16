@@ -23,7 +23,7 @@ except ImportError:
 # adapted from https://github.com/ikostrikov/pytorch-a2c-ppo-acktr/blob/master/envs.py
 def make_env(env_id, seed, rank, log_dir, episode_life=True):
     def _thunk():
-        random_seed(seed)
+        # random_seed(seed)
         if env_id.startswith("dm"):
             import dm_control2gym
             _, domain, task = env_id.split('-')
@@ -34,7 +34,7 @@ def make_env(env_id, seed, rank, log_dir, episode_life=True):
             env.unwrapped, gym.envs.atari.atari_env.AtariEnv)
         if is_atari:
             env = make_atari(env_id)
-        env.seed(seed + rank)
+        env.seed(seed)
 
         if log_dir is not None:
             # env = Monitor(env=env, filename=os.path.join(log_dir, str(rank)), allow_early_resets=True)

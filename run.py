@@ -9,8 +9,11 @@ def set_optimizer_fn(cfg):
         cfg.optimizer_fn = lambda params: SGD(params, cfg.learning_rate)
     elif cfg.optimizer_type == 'RMSProp':
         cfg.optimizer_fn = lambda params: torch.optim.RMSprop(params, cfg.learning_rate)
+    elif cfg.optimizer_type == 'Adam':
+        cfg.optimizer_fn = lambda params: torch.optim.Adam(params, cfg.learning_rate)
     else:
         raise NotImplementedError
+
 
 def set_network_fn(cfg):
     if cfg.tile_coding:
@@ -45,11 +48,11 @@ if __name__ == '__main__':
     cfg = sweeper.parse(args.id)
     cfg.data_root = os.path.join(project_root, 'data', 'output')
     set_one_thread()
-    random_seed()
+    random_seed(args.id)
     select_device(-1)
 
     # Setting up the config
-    cfg.task_fn = lambda: Task(cfg.task_name)
+    cfg.task_fn = lambda: Task(cfg.task_name, seed=args.id)
     cfg.eval_env = cfg.task_fn()
 
     # Setting up the optimizer

@@ -7,6 +7,7 @@
 from .config import *
 import torch
 import os
+import random
 
 def select_device(gpu_id):
     # if torch.cuda.is_available() and gpu_id >= 0:
@@ -27,9 +28,11 @@ def range_tensor(end):
 def to_np(t):
     return t.cpu().detach().numpy()
 
-def random_seed(seed=None):
+def random_seed(seed):
+    print('seed: {}'.format(seed))
+    random.seed(seed)
     np.random.seed(seed)
-    torch.manual_seed(np.random.randint(int(1e6)))
+    torch.manual_seed(seed)
 
 def set_one_thread():
     os.environ['OMP_NUM_THREADS'] = '1'
